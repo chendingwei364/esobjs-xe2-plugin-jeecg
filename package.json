@@ -1,0 +1,72 @@
+{
+  "name": "esobjs-xe2-plugin",
+  "version": "0.1.37",
+  "description": "ES对象扩展插件",
+  "gituri": "https://codeup.aliyun.com/xbsj/2022/earthsdk2-demos-202211/commit/${commitId}",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "npm run dev-web",
+    "build": "npm run build-node && npm run build-web",
+    "build-unminified": "npm run build-node-unminified && npm run build-web-unminified",
+    "dev-web": "webpack-dev-server --open --config ./tools/webpack-web/webpack.dev.js",
+    "build-web": "rimraf dist-web && npm run build-web-minified && ncp dist-web-minified dist-web",
+    "build-web-minified": "webpack --config ./tools/webpack-web/webpack.prod.minified.js && ts-node tools/webpack-web/createDtsFile.ts -o ./dist-web-minified && ts-node tools/webpack-web/createVersion.ts -o ./dist-web-minified",
+    "build-web-unminified": "webpack --config ./tools/webpack-web/webpack.prod.unminified.js && ts-node tools/webpack-web/createDtsFile.ts -o ./dist-web-unminified && ts-node tools/webpack-web/createVersion.ts -o ./dist-web-unminified",
+    "build-node": "rimraf dist-node && npm run build-node-minified && ncp dist-node-minified dist-node",
+    "build-node-minified": "webpack --config ./tools/webpack-node/webpack.prod.minified.js && ncp dist-node-declartions/src dist-node-minified && rimraf dist-node-declartions && ts-node tools/webpack-node/distReplace.ts -i ./dist-node-minified",
+    "build-node-unminified": "webpack --config ./tools/webpack-node/webpack.prod.unminified.js && ncp dist-node-declartions/src dist-node-unminified && rimraf dist-node-declartions && ts-node tools/webpack-node/distReplace.ts -i ./dist-node-unminified",
+    "copy-examples-from-dist-web": "rimraf examples && ncp ./dist-web/examples ./examples",
+    "doc": "typedoc --hideGenerator --readme README.md --target ES6 --module commonjs --includeDeclarations --excludeExternals --excludeNotExported --excludePrivate --mode file --out dist/docs/ src",
+    "test": "mocha -r ts-node/register test/**/*",
+    "login": "npm login --registry https://registry.npmjs.org",
+    "push": "npm publish --registry https://registry.npmjs.org",
+    "copy": "call tools/publishLibs/publish.bat"
+  },
+  "files": [
+    "dist-node",
+    "dist-web",
+    "package.json"
+  ],
+  "author": "vtxf, qy",
+  "owner": "北京西部世界科技有限公司",
+  "homepage": "www.earthsdk.com",
+  "ownerlink": "https://work.weixin.qq.com/kfid/kfc0a426187a0ce9a9a",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/runtime": "^7.12.0",
+    "@types/assert": "^1.5.1",
+    "@types/mocha": "^8.0.0",
+    "@types/yargs": "^17.0.24",
+    "assert": "^2.0.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "cross-env": "^5.2.1",
+    "mkdirp": "^1.0.4",
+    "mocha": "^8.0.1",
+    "ncp": "^2.0.0",
+    "replace-bundle-webpack-plugin-webpack-5": "^1.0.0",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^6.2.1",
+    "ts-node": "^8.10.2",
+    "typedoc": "^0.23.9",
+    "typescript": "~4.6.2",
+    "webpack": "^5.37.0",
+    "webpack-cli": "^4.7.0",
+    "webpack-core": "^0.6.9",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-merge": "^4.2.2",
+    "yargs": "^17.7.2"
+  },
+  "dependencies": {
+    "cesium": "^1.105.2",
+    "html2canvas": "^1.4.1",
+    "smplotting-xe2-plugin": "^0.1.1",
+    "stream-browserify": "^3.0.0",
+    "xbsj-renderer": "0.3.27",
+    "xbsj-xe2": "0.1.32",
+    "esobjs-xe2-plugin-assets": "0.1.5"
+  }
+}
